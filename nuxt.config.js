@@ -55,10 +55,14 @@ export default {
     }
   },
   env: {
-    baseUrl: process.env.BASE_URL || 'https://nuxject-default-rtdb.firebaseio.com'
+    baseUrl: process.env.BASE_URL || 'https://nuxject-default-rtdb.firebaseio.com',
+    fbAPIKey: 'AIzaSyC19jNN4AfE2NEwuGu72exvc-MP_mux9cw'
   },
   transition: {
     name: 'fade',
     mode: 'out-in'
-  } 
+  },
+  // router: {
+  //   middleware: 'log',
+  // }
 }
