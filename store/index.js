@@ -43,23 +43,25 @@ const createStore = () => {
               updatedDate: new Date()
           }
           return this.$axios
-          .$post("https://nuxject-default-rtdb.firebaseio.com/posts.json", createdPost)
+          .$post("https://nuxject-default-rtdb.firebaseio.com/posts.json?auth=" + vuexContext.state.token, createdPost)
           .then(data => {
-            vuexContext.commit('addPost', {...createdPost, id: data.name})
+            vuexContext.commit("addPost", {...createdPost, id: data.name})
           })
           .catch(e => console.log(e));
         },
         editPost(vuexContext, editedPost) {
-          return this.$axios.$put("https://nuxject-default-rtdb.firebaseio.com/posts/" + 
-            editedPost.id + 
-            ".json", editedPost)
+          return this.$axios
+          .$put(
+            "https://nuxject-default-rtdb.firebaseio.com/posts/" + editedPost.id + ".json?auth=" + vuexContext.state.token, 
+            editedPost
+          )
             .then(res => {
-              vuexContext.commit('editPost', editedPost)
+              vuexContext.commit("editPost", editedPost);
             })
-            .catch(e => console.log(e))
+            .catch(e => console.log(e));
         },
         setPosts(vuexContext, posts) {
-            vuexContext.commit('setPosts', posts);
+            vuexContext.commit("setPosts", posts);
       },
         authenticateUser(vuexContext, authData) {
           let authUrl = 
@@ -85,7 +87,10 @@ const createStore = () => {
     getters: {
       loadedPosts(state) {
         return state.loadedPosts;
-        }
+        },
+      isAuthenticated(state) {
+        return state.token != null
+      }
     }
   });
 };
