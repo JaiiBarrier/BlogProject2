@@ -8,23 +8,23 @@
 
 <script>
 import AdminPostForm from '@/components/admin/AdminPostForm.vue'
-import axios from "axios"
 
 export default {
     layout: 'admin',
+    middleware: ['check-auth', 'auth'],
     components: {
         AdminPostForm,
     },
     asyncData(context) {
-        return axios
-        .get(
-          "https://nuxject-default-rtdb.firebaseio.com/posts/" + 
+        return context.app.$axios
+        .$get(
+          process.env.baseUrl + "/posts/" + 
             context.params.postId + 
             ".json"
         )
-        .then(res => {
+        .then(data => {
           return {
-            loadedPost: {...res.data, id: context.params.postId }
+            loadedPost: {...data, id: context.params.postId }
           }
         })
         .catch(e => context.error());
