@@ -110,6 +110,7 @@ const createStore = () => {
         }, duration);
       },
       initAuth(vuexContext, req) {
+        let expirationDate;
         if (req) {
           if (!req.headers.cookie) {
             return;
@@ -121,13 +122,13 @@ const createStore = () => {
             return;
           }
           const token = jwtCookie.split('=')[1];
-          const expirationDate = req.headers.cookie
+          expirationDate = req.headers.cookie
             .split(';')
             .find(c => c.trim().startsWith("expirationDate="))
             .split('=')[1];
         } else {
           const token = localStorage.getItem("token");
-          const expirationDate = localStorage.getItem("tokenExpiration");
+          expirationDate = localStorage.getItem("tokenExpiration");
 
         if (new Date().getTime() > +expirationDate || !token) {
           return;
