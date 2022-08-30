@@ -111,7 +111,10 @@ const createStore = () => {
       },
 
       initAuth(vuexContext, req) {
+ Middleware_&_Authentication
         let token;
+
+
         let expirationDate;
         if (req) {
           if (!req.headers.cookie) {
@@ -123,15 +126,27 @@ const createStore = () => {
           if (!jwtCookie) {
             return;
           }
+ Middleware_&_Authentication
           token = jwtCookie.split("=")[1];
           expirationDate = req.headers.cookie
             .split(";")
+
+          const token = jwtCookie.split('=')[1];
+          expirationDate = req.headers.cookie
+            .split(';')
+
             .find(c => c.trim().startsWith("expirationDate="))
             .split("=")[1];
         } else {
+Middleware_&_Authentication
           token = localStorage.getItem("token");
           expirationDate = localStorage.getItem("tokenExpiration"); 
         }
+
+          const token = localStorage.getItem("token");
+          expirationDate = localStorage.getItem("tokenExpiration");
+
+
         if (new Date().getTime() > +expirationDate || !token) {
           console.log('No token or invalid token');
           vuexContext.commit('clearToken');
